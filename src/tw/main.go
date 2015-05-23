@@ -10,6 +10,7 @@ import (
 	"os"
 	"strings"
 	"regexp"
+	"math/rand"
 )
 
 const APP_VERSION = "0.1"
@@ -74,6 +75,7 @@ func onTweet(api *anaconda.TwitterApi, tw anaconda.Tweet) {
 	if alphas > (len(rs)/2){
 		return
 	}
+	candidates := make([]string, 0)
 	for _, r := range rs {
 		if contains(kStopWords, r.Surface){
 			return
@@ -90,14 +92,20 @@ func onTweet(api *anaconda.TwitterApi, tw anaconda.Tweet) {
 							!strings.Contains(f,"形容動詞語幹")){
 			continue
 		}
-		log.Printf("%s as a Service\n",r.Surface)
-		t, err := api.PostTweet(r.Surface + " as a Service", nil)
-		if err != nil{
-			log.Println(err)
-		}
-		log.Println(t)
-		os.Exit(0)
+		candidates = append(candidates, r.Surface)
 	}
+	if len(candidates) <= 0{
+		continue
+	}
+	c := candidates[rand.Intn(len(candidates))]
+	log.Printf("%s as a Service\n", c)
+	t, err := api.PostTweet(c + " as a Service", nil)
+	if err != nil{
+		log.Println(err)
+	}
+	log.Println(t)
+	os.Exit(0)
+
 }
 
 func main() {
