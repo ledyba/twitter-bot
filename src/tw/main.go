@@ -7,16 +7,16 @@ import (
 	"github.com/ChimeraCoder/anaconda"
 	mecab "github.com/yukihir0/mecab-go"
 	"log"
-	"os"
-	"strings"
-	"regexp"
 	"math/rand"
+	"os"
+	"regexp"
+	"strings"
 )
 
 const APP_VERSION = "0.1"
 
 func getCred() {
-	key, cred,_ := anaconda.AuthorizationURL("")
+	key, cred, _ := anaconda.AuthorizationURL("")
 	fmt.Printf("access: %v\n", key)
 	fmt.Printf("Key: ")
 	buf := bufio.NewReader(os.Stdin)
@@ -45,12 +45,13 @@ func count(target, s string) int {
 }
 
 var urlRegexp *regexp.Regexp
+
 func onTweet(api *anaconda.TwitterApi, tw anaconda.Tweet) {
 	log.Printf("Tweet: %s", tw.Text)
 	var err error
-	if urlRegexp == nil{
+	if urlRegexp == nil {
 		urlRegexp, err = regexp.Compile(kUrlRegexp)
-		if err != nil{
+		if err != nil {
 			log.Fatal(err)
 		}
 	}
@@ -62,45 +63,45 @@ func onTweet(api *anaconda.TwitterApi, tw anaconda.Tweet) {
 	}
 	strs := make([]string, len(rs))
 	for i, r := range rs {
-		strs[i]=r.Surface
+		strs[i] = r.Surface
 	}
 	log.Print(strs)
 	alphas := 0
 	for _, r := range rs {
 		rlen := len([]rune(r.Surface))
-		if count(kAlphabet, r.Surface) > (rlen/2) {
+		if count(kAlphabet, r.Surface) > (rlen / 2) {
 			alphas++
 		}
 	}
-	if alphas > (len(rs)/2){
+	if alphas > (len(rs) / 2) {
 		return
 	}
 	candidates := make([]string, 0)
 	for _, r := range rs {
-		if contains(kStopWords, r.Surface){
+		if contains(kStopWords, r.Surface) {
 			return
 		}
 		rlen := len([]rune(r.Surface))
 		syms := count(kSymbols, r.Surface)
-		if rlen <= 1 || (syms) > (rlen / 2) {
+		if rlen <= 1 || (syms) > (rlen/2) {
 			continue
 		}
 		f := r.Feature
-		if !(r.Pos == "名詞" && !strings.Contains(f,"接尾") &&
-							!strings.Contains(f,"代名詞") &&
-							!strings.Contains(f,"接頭詞") &&
-							!strings.Contains(f,"形容動詞語幹")){
+		if !(r.Pos == "名詞" && !strings.Contains(f, "接尾") &&
+			!strings.Contains(f, "代名詞") &&
+			!strings.Contains(f, "接頭詞") &&
+			!strings.Contains(f, "形容動詞語幹")) {
 			continue
 		}
 		candidates = append(candidates, r.Surface)
 	}
-	if len(candidates) <= 0{
-		continue
+	if len(candidates) <= 0 {
+		return
 	}
 	c := candidates[rand.Intn(len(candidates))]
 	log.Printf("%s as a Service\n", c)
-	t, err := api.PostTweet(c + " as a Service", nil)
-	if err != nil{
+	t, err := api.PostTweet(c+" as a Service", nil)
+	if err != nil {
 		log.Println(err)
 	}
 	log.Println(t)
