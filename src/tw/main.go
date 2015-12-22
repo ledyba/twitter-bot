@@ -4,13 +4,14 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/ChimeraCoder/anaconda"
-	mecab "github.com/yukihir0/mecab-go"
 	"log"
 	"math/rand"
 	"os"
 	"regexp"
 	"strings"
+
+	"github.com/ChimeraCoder/anaconda"
+	mecab "github.com/yukihir0/mecab-go"
 )
 
 const APP_VERSION = "0.1"
@@ -100,7 +101,7 @@ func onTweet(api *anaconda.TwitterApi, tw anaconda.Tweet) {
 	}
 	c := candidates[rand.Intn(len(candidates))]
 	log.Printf("%s as a Service\n", c)
-	t, err := api.PostTweet(c+" as a Service", nil)
+	t, err := api.PostTweet(c+"とは何で、なぜ必要ですか。\nhttp://java.com/ja/download/faq/whatis_java.xml", nil)
 	if err != nil {
 		log.Println(err)
 	}
