@@ -4,16 +4,15 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/ChimeraCoder/anaconda"
-	mecab "github.com/yukihir0/mecab-go"
 	"log"
 	"math/rand"
 	"os"
 	"regexp"
 	"strings"
-)
 
-const APP_VERSION = "0.1"
+	"github.com/ChimeraCoder/anaconda"
+	mecab "github.com/yukihir0/mecab-go"
+)
 
 func getCred() {
 	key, cred, _ := anaconda.AuthorizationURL("")
@@ -22,7 +21,7 @@ func getCred() {
 	buf := bufio.NewReader(os.Stdin)
 	line, _, _ := buf.ReadLine()
 	cred, _, _ = anaconda.GetCredentials(cred, string(line))
-	fmt.Printf("cred: \n", cred)
+	fmt.Printf("cred: %s\n", cred)
 }
 
 func contains(s []string, e string) bool {
