@@ -2,6 +2,7 @@ package main
 
 import "github.com/ChimeraCoder/anaconda"
 
+// ".*?"([^\n])
 func register() []*Account {
 	anaconda.SetConsumerKey("")
 	anaconda.SetConsumerSecret("")
