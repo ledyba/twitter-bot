@@ -8,7 +8,7 @@ get:
 	go get -u "github.com/yukihir0/mecab-go"
 	go get -u "github.com/ChimeraCoder/anaconda"
 
-run:
+run: all
 	$(GOPATH)/bin/twitter-bot
 
 clean:
