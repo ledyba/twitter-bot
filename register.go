@@ -6,6 +6,6 @@ func register() []*Account {
 	anaconda.SetConsumerKey("")
 	anaconda.SetConsumerSecret("")
 	return []*Account{
-		NewAccount("", "", &EaaS{}),
+		NewAccount("", "", newEaaS()),
 	}
 }
