@@ -10,5 +10,6 @@ func register() []*Account {
 		NewAccount("", "", newEaaS()),
 		NewAccount("", "", newMii()),
 		NewAccount("", "", newSeizonSenryaku()),
+		NewAccount("", "", newConnections()),
 	}
 }
